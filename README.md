@@ -1,1 +1,1 @@
-# polys-withdrawal-bot
+# polys-bot
