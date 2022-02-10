@@ -1,0 +1,28 @@
+{
+  "name": "polys-bot",
+  "version": "1.0.0",
+  "description": "This is a bot for the artists of Polys.art",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "node test.js"
+  },
+  "dependencies": {
+    "@truffle/hdwallet-provider": "^2.0.3",
+    "axios": "^0.25.0",
+    "console.table": "^0.10.0",
+    "dotenv": "^16.0.0",
+    "ejs": "^3.1.6",
+    "express": "^4.17.2",
+    "infura-web3-provider": "^0.0.3",
+    "lodash": "^4.17.21",
+    "moment": "^2.29.1",
+    "moment-timezone": "^0.5.34",
+    "numeral": "^2.0.6",
+    "web3": "^1.7.0"
+  },
+  "devDependencies": {
+    "request": "^2.81.0"
+  },
+  "license": "MIT"
+}
