@@ -31,7 +31,7 @@ const POLYS_ABI = [
   },
   {
     name: "withdraw",
-    outputs: [],
+    outputs: [{ type: "boolean", name: "" }],
     inputs: [],
     constant: false,
     payable: true,
@@ -41,22 +41,27 @@ const POLYS_ABI = [
 const POLYS_ADDRESS = "0x7EffBC54d8066E3717230Fff5D245d7c11AD4d22";
 const polysContract = new web3.eth.Contract(POLYS_ABI, POLYS_ADDRESS);
 
+const ETHER = 1000000000000000000;
+
 const checkBalance = async () => {
   try {
-    const balanceResult = await polysContract.methods
+    const balanceRes = await polysContract.methods
       .availableBalance(process.env.ADDRESS)
       .call();
 
-    const balance = Number(balanceResult);
+    const balance = Number(balanceRes);
 
-    console.log(`You have a balance of: ${balance}`);
+    console.log(`Balance: ${balance / ETHER} ETH`);
 
     if (balance > 0) {
-      await polysContract.methods.withdraw().send({
-        gasLimit: 8000000, // Override gas settings: https://github.com/ethers-io/ethers.js/issues/469
-        gasPrice: web3.utils.toWei("50", "Gwei"),
+      console.log("Sending ETH to wallet...");
+      const TRANSACTION_OPTIONS = {
         from: process.env.ADDRESS,
-      });
+      };
+      const withdrawRes = await polysContract.methods
+        .withdraw()
+        .send(TRANSACTION_OPTIONS);
+      console.log(withdrawRes);
     }
   } catch (e) {
     console.log(e);
@@ -77,9 +82,8 @@ const run = async () => {
   isRunning = false;
 };
 
-// Check markets every n seconds
 const POLLING_INTERVAL = process.env.POLLING_INTERVAL || 1000 * 60 * 60; // 1 hour
-run(); // run now and then every hour
+run(); // run now and then every 1 hour
 setInterval(async () => {
   await run();
 }, POLLING_INTERVAL);
